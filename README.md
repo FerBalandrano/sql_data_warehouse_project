@@ -1,6 +1,6 @@
 # Data Warehouse Project
 
-Designing and building a Data Warehouse using SQL Server, with ETL processes, data modeling and analystics.
+Designing and building a Data Warehouse using MySQL, with ETL processes, data modeling and analystics.
 
 #### Specifications
 
