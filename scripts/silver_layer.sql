@@ -1,6 +1,6 @@
 use silver; 
 
-CREATE TABLE crm_cust_info(
+CREATE TABLE IF NOT EXISTS crm_cust_info(
     cst_id INT Null,
     cst_key VARCHAR(50),
     cst_firstname VARCHAR(50),
@@ -13,7 +13,7 @@ CREATE TABLE crm_cust_info(
 
 ALTER TABLE crm_cust_info MODIFY cst_id INT NULL;
 
-CREATE TABLE crm_prod_info(
+CREATE TABLE IF NOT EXISTS crm_prod_info(
     prd_id INT,
     prd_key	VARCHAR(50),
     prd_nm	VARCHAR(50),
@@ -24,7 +24,7 @@ CREATE TABLE crm_prod_info(
     dwh_create_date DATETIME DEFAULT NOW()
 );
 
-CREATE TABLE crm_sales_details(
+CREATE TABLE IF NOT EXISTS crm_sales_details(
     sls_ord_num VARCHAR(59),
     sls_prd_key VARCHAR(59),
     sls_cust_id INT,
@@ -39,20 +39,20 @@ CREATE TABLE crm_sales_details(
 
 ALTER TABLE crm_sales_details MODIFY sls_price DECIMAL(10,2) NULL;
 
-CREATE TABLE erp_cust_az12(
+CREATE TABLE IF NOT EXISTS erp_cust_az12(
     cid	VARCHAR(50),
     bdate DATE,
     gen VARCHAR(50),
     dwh_create_date DATETIME DEFAULT NOW()
 );
 
-CREATE TABLE erp_loc_a101(
+CREATE TABLE IF NOT EXISTS erp_loc_a101(
     cid VARCHAR(50),
     cntry VARCHAR(50),
     dwh_create_date DATETIME DEFAULT NOW()
 );
 
-CREATE TABLE erp_px_cat_g1v2(
+CREATE TABLE IF NOT EXISTS erp_px_cat_g1v2(
     id VARCHAR(50),
     cat VARCHAR(50),
     subcat VARCHAR(50),
@@ -60,8 +60,10 @@ CREATE TABLE erp_px_cat_g1v2(
     dwh_create_date DATETIME DEFAULT NOW()
 );
 
+SET GLOBAL local_infile = 1; 
+
 TRUNCATE crm_cust_info;
-LOAD DATA INFILE '/tmp/mysql-files/cust_info.csv'
+LOAD DATA LOCAL INFILE 'datasets/source_crm/cust_info.csv'
 INTO TABLE crm_cust_info
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
@@ -88,7 +90,7 @@ SET
 	);
     
 TRUNCATE crm_prod_info;
-LOAD DATA INFILE '/tmp/mysql-files/prd_info.csv'
+LOAD DATA LOCAL INFILE 'datasets/source_crm/prd_info.csv'
 INTO TABLE crm_prod_info
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
@@ -114,7 +116,7 @@ SET
 	);
     
 TRUNCATE crm_sales_details;
-LOAD DATA INFILE '/tmp/mysql-files/sales_details.csv'
+LOAD DATA LOCAL INFILE 'datasets/source_crm/sales_details.csv'
 INTO TABLE crm_sales_details
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
@@ -142,7 +144,7 @@ SET
 );
 
 TRUNCATE erp_cust_az12;
-LOAD DATA INFILE '/tmp/mysql-files/CUST_AZ12.csv'
+LOAD DATA LOCAL INFILE 'datasets/source_erp/CUST_AZ12.csv'
 INTO TABLE erp_cust_az12
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
@@ -157,7 +159,7 @@ SET
 ;
 
 TRUNCATE erp_loc_a101;
-LOAD DATA INFILE '/tmp/mysql-files/LOC_A101.csv'
+LOAD DATA LOCAL INFILE 'datasets/source_erp/LOC_A101.csv'
 INTO TABLE erp_loc_a101
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
@@ -171,7 +173,7 @@ SET
 ;
 
 TRUNCATE erp_px_cat_g1v2;
-LOAD DATA INFILE '/tmp/mysql-files/PX_CAT_G1V2.csv'
+LOAD DATA LOCAL INFILE 'datasets/source_erp/PX_CAT_G1V2.csv'
 INTO TABLE erp_px_cat_g1v2
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
